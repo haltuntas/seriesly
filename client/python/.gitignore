@@ -1,0 +1,10 @@
+*.py[co]
+
+# Packages
+dist
+build
+docs/_build
+*.egg-info
+
+# Pycharm
+.idea

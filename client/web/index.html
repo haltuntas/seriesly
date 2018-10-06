@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title> Seriesly Web Client </title>
+
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="css/framy.min.css">
+    <link rel="stylesheet" href="css/app_css.min.css">
+
+</head>
+<body>
+	<script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plotly-1.40.1.min.js"></script>
+    <script src="js/framy.js"></script>
+    <script src="js/app_js.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/datetimepicker_css.js"></script>
+
+    <section id="sidebar">
+
+        <h1>Seriesly Client</h1>
+        <span class="info">Version <strong>0.0</strong></span>
+
+        <hr>
+
+        <span class="caption">Settings</span>
+        <nav>
+            <ul>
+                <li><a href="#DatabaseSettings">Database Settings</a></li>
+            </ul>
+        </nav>
+
+        <span class="caption">Usage</span>
+        <nav>
+            <ul>
+                <li><a href="#DatabaseQuery">Query</a></li>
+            </ul>
+            <ul>
+                <li><a href="#DatabaseSendData">Send Data</a></li>
+            </ul>
+        </nav>
+
+        <hr>
+
+    </section>
+
+    <section id="content">
+        <div class="container-fluid">
+
+            <header>
+
+                <div class="clear">
+
+                    <h1>Database Settings</h1>
+
+                    <a class="logo" href="https://example.com" target="_blank">
+                        <img src="img/logo.png" alt="nesta CSS Logo">
+                    </a>
+
+                    <a class="github" href="https://github.com/tevfik/seriesly" target="_blank">
+                        <i class="icon-github"></i>
+                    </a>
+
+                    <div class="menu">
+                        <i class="icon-list"></i>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <div class="tab" id="DatabaseSettings">
+
+                <section>
+                    <h2>Connection</h2>
+                    <div class="columns">
+                        <div class="lg-12 md-8 md-offset-2 sm-6">
+                            <span id="status_output_1">
+                            </span>
+                        </div>
+                    </div>
+
+                    <h3>Database Node</h3>
+
+                    <div class="columns">
+                        <div class="md-8">
+                            <div class="form-element">
+                                <div class="form-group">
+                                    <span id="ConnectionSecurity">http://</span>
+                                    <input class="form-field" type="text" id="hostAddress" value="example.com:3133/"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md-2">
+                            <input class="btn" type="button" id="connectionStatus" value="Connect" onclick="button_connect()"/>
+                        </div>
+                        <div class="md-2">
+                            <label class="switch">
+                                <input type="checkbox" id="changeConnectionSecurity" onclick="change_connection_security()"/>
+                                <div></div>
+                                <span>https</span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <h3>Database Tables</h3>
+
+                    <div class="columns">
+                        <div class="md-8">
+                            <div class="form-element">
+                                <select class="form-select" id="databaseTables_1" onChange=button_get_table_information()>
+                                    <option>Press Connect...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="md-2">
+                            <input class="btn" style="background-color:red" type="button" id="deleteDatabaseTable" value="Delete" onclick="button_delete_db_table()"/>
+                        </div>
+                        <div class="md-2">
+                            <input class="btn" type="button" id="compactDatabaseTable" value="Compact" onclick="button_compact_db_table()"/>
+                        </div>
+                    </div>
+
+                    <h3>Create Database Table</h3>
+
+                    <div class="columns">
+                        <div class="md-8">
+                            <div class="form-element">
+                                <input class="form-field" type="text" id="createDatabaseTableName" value="databaseName">
+                            </div>
+                        </div>
+                        <div class="md-4">
+                            <input class="btn" type="button" id="createDatabaseTable" value="Create" onclick="button_create_db_table()"/>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div class="columns">
+                        <div class="md-8 sm-12 xs-12">
+                            <span id="DatabaseInfoTable">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="md-8 sm-12 xs-12">
+                            <span id="status_output_2">
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+<!-- ------------------------------------------------------- -->
+            <div class="tab" id="DatabaseQuery">
+
+                <section>
+                    <h2>Connection</h2>
+                    <div class="columns">
+                        <div class="lg-12 md-8 md-offset-2 sm-6">
+                            <span id="status_output_3">
+                            </span>
+                        </div>
+                    </div>
+                    <h3>Database Tables</h3>
+
+                    <form onsubmit="return false;">
+                        <div class="columns">
+                            <div class="md-8">
+                                <div class="form-element">
+                                    <select class="form-select" id="databaseTables_2">
+                                        <!-- onChange=selectDatabaseFromTable()> -->
+                                        <option>Press connect first & update...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="lg-2 md-2 sm-2 xs-4">
+                                <input class="btn" type="button" id="updateDatabaseTable" value="update" onclick="button_update_db_list()"/>
+                            </div>
+                            <div class="lg-2 md-2 sm-2 xs-4">
+                                <div class="form-element">
+                                    <input class="btn" type="button" id="updateKeysList_1" value="Get Key List" onclick="button_update_key_list()"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="md-4">
+                                <div class="form-element">
+                                    <input class="form-field" type="text" id="queryStart" value="Start" maxlength="25" size="25" onclick="javascript:NewCssCal ('queryStart','yyyyMMdd','dropdown',true,'24',true)">
+                                </div>
+                            </div>
+                            <div class="md-4">
+                                <div class="form-element">
+                                    <input class="form-field" type="text" id="queryStop" value="Stop" maxlength="25" size="25" onclick="javascript:NewCssCal ('queryStop','yyyyMMdd','dropdown',true,'24',true)">
+                                </div>
+                            </div>
+                            <div class="md-4">
+                                <select class="form-select" id="queryGroup" >
+                                    <option selected disabled>Select Sample Period</option>
+                                    <option>any</option>
+                                    <option>500 msec</option>
+                                    <option>1 sec</option>
+                                    <option>10 sec</option>
+                                    <option>30 sec</option>
+                                    <option>1 min</option>
+                                    <option>5 min</option>
+                                    <option>10 min</option>
+                                    <option>15 min</option>
+                                    <option>30 min</option>
+                                    <option>1 hour</option>
+                                    <option>2 hour</option>
+                                    <option>6 hour</option>
+                                    <option>12 hour</option>
+                                    <option>1 day</option>
+                                    <option>1 week</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="md-6">
+                                <select class="form-select" id="queryReducer" >
+                                    <option selected disabled>Data Reducer</option>
+                                    <option>any</option>
+                                    <option>avg</option>
+                                    <option>max</option>
+                                    <option>min</option>
+                                    <option>count</option>
+									<option>sum</option>
+                                    <option>sumsq</option>
+                                    <option>c</option>
+                                    <option>c_min</option>
+                                    <option>c_max</option>
+                                    <option>c_avg</option>
+                                    <option>identity</option>
+                                    <option>distinct</option>
+                                    <option>obj_keys</option>
+                                    <option>obj_distinct_keys</option>
+                                </select>
+                            </div>
+                            <div class="md-6">
+                                <select class="form-select" id="databaseTable_keylist_1">
+                                    <option>Press Key List to update</option>
+                                </select>
+                            </div>
+                        </div>
+                        <span id="AddNewKey_span_0"></span>
+                        <br>
+                        <div class="columns">
+                            <div class="md-2">
+                                <input class="btn" type="button" value="Add" onclick="add_new_key_to_query()"/>
+                            </div>
+                            <div class="md-2">
+                                <input class="btn" type="button" value="Remove" onclick="remove_key_from_query()"/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="columns">
+                            <div class="md-2">
+                                <input class="btn" type="button" value="Query!" onclick="button_update_query()"/>
+                            </div>
+                            <div class="md-3">
+                                <div class="form-element">
+                                    <label class="switch">
+                                        <input type="checkbox" id="BoolDataToTextArea">
+                                        <div></div>
+                                        <span>Dump Data to Form</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="md-3">
+                                <label class="switch">
+                                    <input type="checkbox" id="changeXIndex">
+                                    <div></div>
+                                    <span>x-axis as index</span>
+                                </label>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div class="columns">
+                            <div class="md-16">
+                                <div id="PlotlyDiv">
+                                <!-- Plotly chart will be drawn inside this DIV -->
+                                </div>
+                            </div>
+                        </div>
+                        <br><br></br>
+                        <div class="columns">
+                            <div class="md-12">
+                                <div class="form-element">
+                                    <textarea class="form-field" id="DataTextArea" rows="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="columns">
+                        <div class="md-8 sm-12 xs-12">
+                            <span id="status_output_4">
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+
+<!-- ------------------------------------------------------- -->
+
+            <div class="tab" id="DatabaseSendData">
+
+                <section>
+                    <h2>Connection</h2>
+                    <div class="columns">
+                        <div class="lg-12 md-8 md-offset-2 sm-6">
+                            <span id="status_output_5">
+                            </span>
+                        </div>
+                    </div>
+                    <h3>Database Tables</h3>
+
+                    <form onsubmit="return false;">
+                        <div class="columns">
+                            <div class="md-8">
+                                <div class="form-element">
+                                    <select class="form-select" id="databaseTables_3">
+                                        <!-- onChange=selectDatabaseFromTable()> -->
+                                        <option>Press connect first & update...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="lg-2 md-2 sm-2 xs-4">
+                                <input class="btn" type="button" id="updateDatabaseTable" value="update" onclick="button_update_db_list()"/>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="md-8">
+                                <div class="form-element">
+                                    <input class="form-field" type="text" id="writeOnTime" value="WriteTo" maxlength="25" size="25" onclick="javascript:NewCssCal ('writeOnTime','yyyyMMdd','dropdown',true,'24',true)">
+                                </div>
+                            </div>
+<!--                            <div class="md-4">
+                                <div class="form-element">
+                                    <img src="img/cal.gif" onclick="javascript:NewCssCal ('writeOnTime','yyyyMMdd','dropdown',true,'24',true)" style="cursor:pointer"/>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="columns">
+                            <div class="md-4">
+                                <input class="btn" type="button" id="writeValue" value="Write!" onclick="button_update_write()"/>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div class="columns">
+                            <div class="md-8">
+                                <div class="form-element">
+                                    <textarea class="form-field" id="dataPostTextArea" rows="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="columns">
+                        <div class="md-8 sm-12 xs-12">
+                            <span id="status_output_6">
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="overlay"></div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/cubism.css">
+		<link rel="stylesheet" href="css/cubism_style.css">
+
+	</head>
+
+	<script src="js/d3.v3.min.js" charset="utf-8"></script>
+	<script src="js/cubism.v1.js"></script>
+	<div id="body"> <div id="graph" /></div>
+
+	<script>
+
+	var baseUrl = "http://example.com:3133",
+		dbname = "testdb2",
+		pointer = "/Random",
+		reducer = "avg",
+		lbl = "Count";
+
+	// create context and horizon
+	var context = cubism.context()
+		.size(960)
+		.step(1000)
+
+	var horizon = context.horizon()
+		.extent([0,150])
+		.height(200)
+
+	function myMetrics(name) {
+	   return context.metric(function(start,stop,step,callback){
+		console.log("hello from metric: " + name + " start: " + start + " stop: " + stop + " step: " + step + " ptr: " + pointer + " lbl: " + lbl + " dbname: " + dbname + " reducer: " + reducer);
+		d3.json(baseUrl + dbname +
+			"/_query?ptr=" + pointer +
+			"&reducer=" + reducer +
+			"&from=" + (+start) +
+			"&to=" + (+stop) +
+			"&group=" + step,
+			function(data) {
+				console.log("data: " + data)
+				if (data) {
+				console.log("iterate over data")
+				var rv = [];
+				console.log("(+start): " + (+start))
+				console.log("(+stop): " + (+stop))
+				for (var i = (+start); i < (+stop); i+=step) {
+					if (data[i]) {
+					console.log("data[i][0]: " + data[i][0])
+					}
+					rv.push(data[i] ? data[i][0] : NaN);
+				}
+				callback(null, rv);
+				}
+			});
+	   }, name);
+	}
+
+	// draw graph
+	var metrics = ["metric"];
+	horizon.metric(myMetrics);
+
+	d3.select("#graph").selectAll(".horizon")
+		  .data(metrics)
+		  .enter()
+		  .append("div")
+		  .attr("class", "horizon")
+		  .call(horizon);
+
+
+	// set rule
+	d3.select("#body").append("div")
+	  .attr("class", "rule")
+	  .call(context.rule());
+
+	// set focus
+	context.on("focus", function(i) {
+		d3.selectAll(".value")
+			.style( "right", i == null ? null : context.size() - i + "px");
+	});
+	// set axis
+	var axis = context.axis()
+	d3.select("#graph").append("div").attr("class", "axis").append("g").call(axis);
+
+
+	</script>
+</html>

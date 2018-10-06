@@ -1,0 +1,80 @@
+<head>
+  <!-- Plotly.js -->
+  <script src="js/plotly-1.40.1.min.js"></script>
+</head>
+
+<body>
+  
+	<div id="PlotlyDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+	<span id=datalogToLog></span>
+	
+	<script>
+
+	//var url = "http://example.com:3133/testdb2/_query?from=1535054410&to=1535054411&group=1&ptr=/number&reducer=identity";
+	//var url = "http://example.com:3133/testdb2/_query?from=1535054410&to=1535055411&group=1&ptr=/Random&reducer=identity";
+
+	var baseUrl = "http://example.com:3133",
+		dbname = "testdb2",
+		pointer = "/Random",
+		reducer = "identity",
+		start_ts = "1535142831",
+		stop_ts = "1535142851",
+		step = "1"
+	
+	var url = baseUrl + dbname + "/_query?" + "&from=" + start_ts + "&to=" + stop_ts + "&group=" + step + "&ptr=" + pointer + "&reducer=" + reducer;
+	console.log(url);
+	
+	var y = [];
+	var x = [];
+	var data = [];
+	
+	var xmlhttp = new XMLHttpRequest();		
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var json_query = sortObject(JSON.parse(this.responseText));
+			
+			var rx = Object.keys(json_query);
+			var ry = Object.values(json_query);
+			
+			const length = rx.length;
+			document.getElementById("datalogToLog").innerHTML = "Data Lenght:" + length + "<br> index[0]  -> <br>";
+			for (let index = 0; index < length; index++){
+				x.push(rx[index]); //sorted array
+				//x.push(index);
+				y.push((ry[index])[0] ? (ry[index][0])[0] : NaN);
+				document.getElementById("datalogToLog").innerHTML += rx[index] + "," + ((ry[index])[0] ? (ry[index][0])[0] : NaN) + "<br>";
+			}
+			document.getElementById("datalogToLog").innerHTML += "index[" + length + "] <br>";
+			//console.log(x);
+			//console.log(y);
+			//console.log(data);
+			//console.log(Object.values(json_query));
+			data = [{x,y,type: 'scatter'}];
+			Plotly.newPlot('PlotlyDiv', data);
+		}
+	};
+	xmlhttp.open("GET", url, true);
+	xmlhttp.send();
+
+	function SortForIndex(a, b) {
+		if (a[0] === b[0]) {
+			return 0;
+		}
+		else {
+			return (a[0] < b[0]) ? -1 : 1;
+		}
+	}
+	function sortObject(obj) {
+		return Object.keys(obj).sort().reduce(function (result, key) {
+			result[key] = obj[key];
+			return result;
+		}, {});
+	}
+	
+	function GetPlotlyForm(input_var)
+	{
+		return input_var;
+	}
+	
+	</script>
+</body>
