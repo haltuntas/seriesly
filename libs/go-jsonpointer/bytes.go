@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/dustin/gojson"
+	"github.com/tevfik/seriesly/libs/gojson"
 )
 
 func arreq(a, b []string) bool {

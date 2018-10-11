@@ -7,8 +7,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/dustin/gomemcached"
-	"github.com/dustin/gomemcached/server"
+	"github.com/tevfik/seriesly/libs/gomemcached"
+	"github.com/tevfik/seriesly/libs/gomemcached/server"
 )
 
 var port *int = flag.Int("port", 11212, "Port on which to listen")

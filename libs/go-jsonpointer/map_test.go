@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dustin/gojson"
+	"github.com/tevfik/seriesly/libs/gojson"
 )
 
 const objSrc = `{

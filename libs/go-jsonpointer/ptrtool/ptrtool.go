@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/dustin/go-jsonpointer"
+	"github.com/tevfik/seriesly/libs/go-jsonpointer"
 )
 
 func listPointers(d []byte) {

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dustin/gomemcached"
+	"github.com/tevfik/seriesly/libs/gomemcached"
 )
 
 const bufsize = 1024

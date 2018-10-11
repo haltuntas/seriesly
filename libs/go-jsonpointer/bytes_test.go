@@ -10,7 +10,7 @@ import (
 	"testing"
 	"testing/quick"
 
-	"github.com/dustin/gojson"
+	"github.com/tevfik/seriesly/libs/gojson"
 )
 
 var ptests = []struct {

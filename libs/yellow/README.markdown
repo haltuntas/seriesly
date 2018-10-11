@@ -20,4 +20,4 @@ func ExampleDeadlineLog() {
 
 [![Coverage Status](https://coveralls.io/repos/dustin/yellow/badge.png?branch=master)](https://coveralls.io/r/dustin/yellow?branch=master)
 
-[docs]: http://godoc.org/github.com/dustin/yellow
+[docs]: http://godoc.org/github.com/tevfik/seriesly/libs/yellow

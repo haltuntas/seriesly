@@ -1,11 +1,11 @@
-# Humane Units [![Build Status](https://travis-ci.org/dustin/go-humanize.svg?branch=master)](https://travis-ci.org/dustin/go-humanize) [![GoDoc](https://godoc.org/github.com/dustin/go-humanize?status.svg)](https://godoc.org/github.com/dustin/go-humanize)
+# Humane Units [![Build Status](https://travis-ci.org/dustin/go-humanize.svg?branch=master)](https://travis-ci.org/dustin/go-humanize) [![GoDoc](https://godoc.org/github.com/tevfik/seriesly/libs/go-humanize?status.svg)](https://godoc.org/github.com/tevfik/seriesly/libs/go-humanize)
 
 Just a few functions for helping humanize times and sizes.
 
-`go get` it as `github.com/dustin/go-humanize`, import it as
-`"github.com/dustin/go-humanize"`, use it as `humanize`.
+`go get` it as `github.com/tevfik/seriesly/libs/go-humanize`, import it as
+`"github.com/tevfik/seriesly/libs/go-humanize"`, use it as `humanize`.
 
-See [godoc](https://godoc.org/github.com/dustin/go-humanize) for
+See [godoc](https://godoc.org/github.com/tevfik/seriesly/libs/go-humanize) for
 complete documentation.
 
 ## Sizes
